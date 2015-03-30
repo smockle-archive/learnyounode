@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/smockle/learnyounode",
   "devDependencies": {
-    "babel": "^4.7.16"
+    "babel": "^4.7.16",
+    "co": "^4.5.1"
   }
 }
