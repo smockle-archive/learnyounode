@@ -11,30 +11,29 @@ class File {
     this.path = path;
   }
 
-  static readFile(path) {
-    return function(callback) {
-      fs.readFile(path, "utf8", callback);
-    };
-  }
-
-  *readFile() {
-    yield File.readFile(this.path);
+  readFile(path) {
+    return new Promise((resolve, reject) => {
+      fs.readFile(path, "utf8", (err, data) => {
+        if (err) reject(err);
+        else resolve(data);
+      });
+    });
   }
 
   countNewlines() {
-    return co(function* () {
-      let file = yield this.readFile().next().value;
-      return file.split("\n").length - 1;
-    }.bind(this))
-    .catch((err) => console.error(err.stack));
+    return new Promise(function(resolve, reject) {
+      co(function* () {
+        let file = yield this.readFile(this.path);
+        resolve(file.split("\n").length - 1);
+      }.bind(this))
+      .catch(err => reject(err));
+    }.bind(this));
   }
 }
 
-(() => {
-  co(function* () {
-    let file = new File(process.argv[2]);
-    let count = yield Promise.resolve(file.countNewlines());
-    console.log(count);
-  })
-  .catch((err) => console.error(err.stack));
-})();
+co(function* () {
+  let file = new File(process.argv[2]);
+  let count = yield file.countNewlines();
+  console.log(count);
+})
+.catch(err => console.error(err.stack));
