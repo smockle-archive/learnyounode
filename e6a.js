@@ -11,21 +11,23 @@ class Directory {
     this.path = path;
   }
 
-  static readdir(path) {
-    return done => {
-      fs.readdir(path, done);
-    };
-  }
-
-  *readdir() {
-    yield Directory.readdir(this.path);
+  readdir(path) {
+    return new Promise((resolve, reject) => {
+      fs.readdir(path, (err, data) => {
+        if (err) reject(err);
+        else resolve(data);
+      });
+    });
   }
 
   listByExtension(extension) {
-    return co(function* () {
-      let list = yield this.readdir().next().value;
-      return list.filter((element, index, array) =>
-        element.toLowerCase().endsWith("." + extension));
+    return new Promise(function(resolve, reject) {
+      co(function* () {
+        let list = yield this.readdir(this.path);
+        resolve(list.filter((element, index, array) =>
+          element.toLowerCase().endsWith("." + extension)));
+      }.bind(this))
+      .catch(err => reject(err));
     }.bind(this));
   }
 }
@@ -33,8 +35,8 @@ class Directory {
 module.exports = (path, extension, callback) => {
   co(function* () {
     let directory = new Directory(path);
-    let list = yield Promise.resolve(directory.listByExtension(extension));
+    let list = yield directory.listByExtension(extension);
     callback(null, list);
   })
-  .catch(err => { return callback(err); });
+  .catch(err => callback(err));
 };
