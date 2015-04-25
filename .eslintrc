@@ -1,0 +1,37 @@
+{
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "ecmaFeatures": {
+    "blockBindings": true,
+    "forOf": true
+  },
+  "rules": {
+    "block-scoped-var": 1,
+    "camelcase": [1, {"properties": "always"}],
+    "comma-dangle": 1,
+    "comma-spacing": [1, {"before": false, "after": true}],
+    "comma-style": [1, "last"],
+    "curly": [2, "multi-line"],
+    "eol-last": 1,
+    "generator-star-spacing": [1, "after"],
+    "guard-for-in": 1,
+    "indent": [0, 2, "tab"],
+    "no-eq-null": 2,
+    "no-extra-parens": 1,
+    "no-lonely-if": 1,
+    "no-mixed-spaces-and-tabs": [1, "smart-tabs"],
+    "no-spaced-func": 1,
+    "no-throw-literal": 2,
+    "no-trailing-spaces": 0,
+    "no-underscore-dangle": 0,
+    "no-undefined": 2,
+    "no-unused-vars": 1,
+    "quotes": [1, "double", "avoid-escape"],
+    "radix": 1,
+    "semi-spacing": [1, {"before": false, "after": true}],
+    "strict": [1],
+    "wrap-iife": 1
+  }
+}
