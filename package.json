@@ -21,6 +21,7 @@
     "co": "^4.5.1"
   },
   "dependencies": {
-    "strftime": "^0.9.0"
+    "strftime": "^0.9.0",
+    "through2-map": "^1.4.0"
   }
 }
